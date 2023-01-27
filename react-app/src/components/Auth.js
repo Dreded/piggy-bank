@@ -37,7 +37,7 @@ export default function Auth() {
     return (
       <>
         <div>
-          <button onClick={logout}>Log Out</button>
+          <button className="button-1" onClick={logout}>Log Out</button>
           <h1><span>{pb.authStore.model.name}'s</span> <span>Piggy Bank</span></h1>
           <p>{isVerified ? "" : "Verified: False"}</p>
           {!isVerified && (
@@ -49,7 +49,7 @@ export default function Auth() {
         <div className="Section">
           <div className="Label">Add Transaction</div>
           <div className="sectionBody">
-            <form onSubmit={handleCreate(createTransaction)}>
+            <form className="myForm" onSubmit={handleCreate(createTransaction)}>
               <input
                 type="text"
                 placeholder="description"
@@ -65,7 +65,7 @@ export default function Auth() {
                 defaultValue={new Date().toLocaleDateString("en-CA")}
                 {...createRegister("date")}
               />
-              <button type="submit" disabled={isLoading}>
+              <button className="button-1" type="submit" disabled={isLoading}>
                 {isLoading ? "Loading" : "Add"}
               </button>
             </form>
