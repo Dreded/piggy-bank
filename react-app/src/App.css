@@ -1,12 +1,22 @@
+@-viewport {
+    width: device-width;
+  }
 .App {
-    width: 800px;
+    width: 100%;
+    max-width: 978px;
     margin: 0 auto;
     font-family: 'Courier New', Courier, monospace;
 }
-
+h1 {
+    text-align: center;
+    font-weight: 900;
+    color: #fdfdfe;
+    text-shadow: 0px 0px 5px #b393d3, 0px 0px 20px #b393d3, 0px 0px 10px #b393d3,
+      0px 0px 20px #b393d3;
+}
 .Section {
     margin-top: 3rem;
-    width: 800px;
+    width: 98%;
     height: 100%;
     border: 3px solid forestgreen;
     position: relative;
@@ -29,6 +39,10 @@
 .sectionBody {
     padding: .5rem;
     padding-top: 1.4rem;
+}
+form input {
+    display: row;
+    flex-direction: row;
 }
 
 .Interest {
@@ -94,3 +108,35 @@ tr:nth-child(even) {
 .interest .balance {
     color: forestgreen;
 }
+@media (max-width: 768px) {
+    h1 {
+        display: flex;
+        flex-direction: column;
+    }
+    form, input {
+        display: flex;
+        flex-direction: column;
+    }
+    .Label {
+        position: relative;
+        margin: auto;
+        left: 0;
+    }
+    .Interest {
+        position: absolute;
+        top: 1rem;
+        left: 50%;
+        transform: translate(-50%);
+    }
+    .date,
+    .value,
+    .balance {
+        padding: 0;
+    }
+    .description {
+        padding-left: 0;
+    }
+    table {
+        font-size: 1rem;
+    }
+  }
