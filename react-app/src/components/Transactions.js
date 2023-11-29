@@ -2,12 +2,21 @@ import pb from "lib/pocketbase";
 import { useQuery } from "react-query";
 
 var totalInterest = 0;
+const compoundInterest = (p, t, r, n) => {
+  const amount = p * (Math.pow((1 + (r / n)), (n * t)));
+  const interest = amount - p;
+  return interest;
+};
+const compoundInterestMonthly = (p, t, r, n) => {
+  const amount = p * (Math.pow((1 + (r / n / 12)), (n * t)));
+  const interest = amount - p;
+  return interest;
+};
 function calcInterest(principal) {
-  const periodsPerYear = 12;
-  const rate = process.env.REACT_APP_INTEREST_RATE;
-  const interest =
-    principal * Math.pow(1 + rate / 100 / periodsPerYear, periodsPerYear) -
-    principal;
+  const rate = process.env.REACT_APP_INTEREST_RATE/100;
+  const timeInYears = 1;
+  const numberOfCompoundPeriods = 12;
+  const interest = compoundInterestMonthly(principal,timeInYears,rate,numberOfCompoundPeriods);
   return Math.round((interest * 100) / 100);
 }
 function localizeDate(date) {
@@ -52,16 +61,12 @@ export function useTransactions() {
           //make a copy of the record
           var interestRecord = JSON.parse(JSON.stringify(record));
           interestRecord.date = new Date(
-            localizeDate(interestRecord.date)
-          ).setDate(0);
-
+            interestRecord.date
+          );
+          interestRecord.date = localizeDate(interestRecord.date);
           // adjust month to be correct per iteration
           interestRecord.date = new Date(interestRecord.date).setMonth(
-            recordDate.getMonth() - monthDifference + i
-          );
-          // adjust year to previous record in case of year rollover.
-          interestRecord.date = new Date(interestRecord.date).setFullYear(
-            lastCheckedRecordDate.getFullYear()
+            recordDate.getMonth() - monthDifference + 1 + i ,1
           );
           interestRecord.description =
             "Interest Calculated on: $" + runningTotal / 100;
@@ -161,8 +166,8 @@ export default function ListTransactions(status, data, error) {
           {new Intl.NumberFormat("en-US", {
             style: "currency",
             currency: "USD",
-          }).format(totalInterest / 100)}
-        </div>
+          }).format(totalInterest / 100)} @ {process.env.REACT_APP_INTEREST_RATE}%
+          </div>
       </div>
     </div>
     </>

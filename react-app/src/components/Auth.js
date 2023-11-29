@@ -28,7 +28,11 @@ export default function Auth() {
     create({
       description: data.description,
       ammount: data.ammount,
+      debit: data.debit,
       date: data.date,
+      multi: data.multi,
+      date_start: data.date_start,
+      date_end: data.date_end,
     });
     createReset();
   }
@@ -61,10 +65,35 @@ export default function Auth() {
                 {...createRegister("ammount")}
               />
               <input
+                type="checkbox"
+                placeholder="debit"
+                {...createRegister("debit")}
+              /><span class="debit">Debit?</span>
+              <input
                 type="date"
                 defaultValue={new Date().toLocaleDateString("en-CA")}
                 {...createRegister("date")}
               />
+              <br />
+          {/* <div className="SubLabel">
+          Multi-Add?: <input class="checkbox-inline" type="checkbox" name="multi"
+          {...createRegister("multi")}
+          />
+          </div> */}
+           Weekly-Add:<input class="checkbox-inline" type="checkbox" name="multi"
+           {...createRegister("multi")}
+           />
+           &nbsp;&nbsp;Start: 
+              <input
+                type="date"
+                defaultValue={new Date().toLocaleDateString("en-CA")}
+                {...createRegister("date_start")}
+              />
+              &nbsp;&nbsp;End: <input
+              type="date"
+              defaultValue={new Date().toLocaleDateString("en-CA")}
+              {...createRegister("date_end")}
+            />
               <button className="button-1" type="submit" disabled={isLoading}>
                 {isLoading ? "Loading" : "Add"}
               </button>
@@ -80,6 +109,7 @@ export default function Auth() {
       {isLoading && <p>Loading... </p>}
       {isError && <p style={{ color: "Red" }}>Invalid email or password.</p>}
       <h1>Please Log In...</h1>
+      {process.env.REACT_APP_PB_URL}
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <input type="text" placeholder="email" {...register("email")} />
